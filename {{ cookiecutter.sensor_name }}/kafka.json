@@ -1,0 +1,6 @@
+{
+    "name": "{{cookiecutter.kafka_topic_name}}",
+    "numPartitions": {{ cookiecutter.kafka_number_partitions }},
+    "properties": {},
+    "replicationFactor": 2
+}

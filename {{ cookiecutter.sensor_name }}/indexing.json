@@ -1,0 +1,17 @@
+{
+	"hdfs": {
+		"batchSize": 1,
+		"enabled": {{ cookiecutter.write_to_hdfs }},
+		"index": "{{ cookiecutter.index_name }}"
+	},
+	"elasticsearch": {
+		"batchSize": 1,
+		"enabled": {{ cookiecutter.write_to_elastic_search }},
+		"index": "{{ cookiecutter.index_name }}"
+	},
+	"solr": {
+		"batchSize": 1,
+		"enabled": {{ cookiecutter.write_to_solr }},
+		"index": "{{ cookiecutter.index_name }}"
+	}
+}

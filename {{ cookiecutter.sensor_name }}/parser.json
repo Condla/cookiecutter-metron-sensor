@@ -1,0 +1,37 @@
+{
+	"parserClassName": "{{ cookiecutter.parser_class_name }}",
+	"filterClassName": null,
+	"sensorTopic": "{{ cookiecutter.kafka_topic_name }}",
+	"outputTopic": null,
+	"errorTopic": null,
+	"writerClassName": null,
+	"errorWriterClassName": null,
+	"readMetadata": true,
+	"mergeMetadata": true,
+	"numWorkers": 2,
+	"numAckers": {{ cookiecutter.kafka_number_partitions }},
+	"spoutParallelism": {{ cookiecutter.kafka_number_partitions }},
+	"spoutNumTasks": {{ cookiecutter.kafka_number_partitions }},
+	"parserParallelism": 2,
+	"parserNumTasks": 2,
+	"errorWriterParallelism": 1,
+	"errorWriterNumTasks": 1,
+	"spoutConfig": {},
+	"securityProtocol": null,
+	"stormConfig": {},
+	"parserConfig": {
+    {% if cookiecutter.is_grok == "true" %}
+		"grokPath": "/apps/metron/patterns/{{ cookiecutter.sensor_name }}",
+		"patternLabel": "{{ cookiecutter.sensor_name | upper }}",
+		"timestampField": "timestamp",
+		"timeFields": [
+			"timestamp"
+		],
+        "dateFormat": "yyyy-MM-dd HH:mm:ss"
+    {% endif %}
+	},
+	"fieldTransformations": [],
+	"cacheConfig": {},
+	"rawMessageStrategy": "DEFAULT",
+	"rawMessageStrategyConfig": {}
+}

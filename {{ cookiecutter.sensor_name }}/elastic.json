@@ -1,0 +1,165 @@
+{
+    "template": "{{ cookiecutter.index_name }}_index*",
+    "settings": {},
+    "mappings": {
+        "{{ cookiecutter.index_name }}_doc": {
+            "dynamic_templates": [
+                {
+                    "geo_location_point": {
+                        "match": "enrichments:geo:*:location_point",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "geo_point"
+                        }
+                    }
+                },
+                {
+                    "geo_country": {
+                        "match": "enrichments:geo:*:country",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                {
+                    "geo_city": {
+                        "match": "enrichments:geo:*:city",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "ty   pe": "keyword"
+                        }
+                    }
+                },
+                {
+                    "geo_location_id": {
+                        "match": "enrichments:geo:*:locID",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                {
+                    "geo_dma_code": {
+                        "match": "enrichments:geo:*:dmaCode",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                {
+                    "geo_postal_code": {
+                        "match": "enrichments:geo:*:postalCode",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                {
+                    "geo_latitude": {
+                        "match": "enrichments:geo:*:latitude",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "float"
+                        }
+                    }
+                },
+                {
+                    "geo_longitude": {
+                        "match": "enrichments:geo:*:longitude",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "float"
+                        }
+                    }
+                },
+                {
+                    "timestamps": {
+                        "match": "*:ts",
+                        "match_mapping_type": "*",
+                        "mapping": {
+                            "type": "date",
+                            "format": "epoch_millis"
+                        }
+                    }
+                },
+                {
+                    "threat_triage_score": {
+                        "mapping": {
+                            "type": "float"
+                        },
+                        "match": "threat:triage:*score",
+                        "match_mapping_type": "*"
+                    }
+                },
+                {
+                    "threat_triage_reason": {
+                        "mapping": {
+                            "type": "text",
+                            "fielddata": "true"
+                        },
+                        "match": "threat:triage:rules:*:reason",
+                        "match_mapping_type": "*"
+                    }
+                },
+                {
+                    "threat_triage_name": {
+                        "mapping": {
+                            "type": "text",
+                            "fielddata": "true"
+                        },
+                        "match": "threat:triage:rules:*:name",
+                        "match_mapping_type": "*"
+                    }
+                },
+                {
+                    "threat_triage_name": {
+                        "mapping": {
+                            "type": "text",
+                            "fielddata": "true"
+                        },
+                        "match": "*:indicator:rules:*:name",
+                        "match_mapping_type": "*"
+                    }
+                }
+            ],
+            "properties": {
+                "timestamp": {
+                    "type": "date",
+                    "format": "epoch_millis"
+                },
+                "ip_src_addr": {
+                    "type": "ip"
+                },
+                "ip_dst_port": {
+                    "type": "keyword"
+                },
+                "ip_dst_addr": {
+                    "type": "ip"
+                },
+                "source:type": {
+                    "type": "keyword"
+                },
+                "original_string": {
+                    "type": "keyword"
+                },
+                "guid": {
+                    "type": "keyword"
+                },
+                "topic": {
+                    "type": "keyword"
+                },
+                "metron_alert": {
+                    "type": "nested"
+                },
+                "is_alert": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "aliases": {}
+    }
+}

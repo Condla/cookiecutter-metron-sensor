@@ -1,0 +1,12 @@
+{
+    "sensor_name": "mysensor",
+    "index_name": "myindex",
+    "kafka_topic_name": "mytopic",
+    "kafka_number_partitions": 2,
+    "cookiecutter.kafka_number_replicas": 2,
+    "is_grok": ["true", "false"],
+    "write_to_hdfs": ["true", "false"],
+    "write_to_elastic_search": ["true", "false"],
+    "write_to_solr": ["false", "true"],
+    "parser_class_name": ["org.apache.metron.parsers.GrokParser"]
+}
