@@ -4,7 +4,8 @@
     "sensorTopic": "{{ cookiecutter.kafka_topic_name }}",
     "outputTopic": null,
     "errorTopic": null,
-    "writerClassName": "{{ cookiecutter.writer_class_name }}",
+
+    "writerClassName": {% if cookiecutter.write_to_hbase=="true"%}"org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter"{% else %}null{% endif %}",
     "errorWriterClassName": null,
     "readMetadata": true,
     "mergeMetadata": true,
@@ -29,9 +30,9 @@
         "timeFields": [
             "timestamp"
         ],
-        "dateFormat": "yyyy-MM-dd HH:mm:ss"{% if cookiecutter.writer_class_name=="org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter" %},{% endif %}
+        "dateFormat": "yyyy-MM-dd HH:mm:ss"{% if cookiecutter.write_to_hbase=="true" %},{% endif %}
     {% endif %}
-    {% if cookiecutter.writer_class_name=="org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter" %}
+    {% if cookiecutter.write_to_hbase=="true" %}
         "shew.table": "{{ cookiecutter.shew_table }}",
         "shew.cf": "{{ cookiecutter.shew_cf }}",
         "shew.keyColumns": "{{ cookiecutter.shew_key_columns }}",

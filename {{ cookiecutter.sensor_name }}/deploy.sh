@@ -33,6 +33,6 @@ echo \n\n
 {% endif %}
 
 echo "########      Create Kafka topic       #########"
-sudo su kafka -c "/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --zookeeper {{ cookiecutter.zookeeper_quorum }} --create --topic {{ cookiecutter.kafka_topic_name }} --partitions {{ cookiecutter.kafka_number_partitions }} --replication-factor {{ cookiecutter.kafka_number_replicas }}"
+sudo su kafka -c "/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --zookeeper {{ cookiecutter.zookeeper_quorum }} --if-not-exists --create --topic {{ cookiecutter.kafka_topic_name }} --partitions {{ cookiecutter.kafka_number_partitions }} --replication-factor {{ cookiecutter.kafka_number_replicas }}"
 #curl -iv -u $METRON_REST_USER:$METRON_REST_PASSWORD -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d @kafka.json $METRON_REST_URL/api/v1/kafka/topic
 echo \n\n

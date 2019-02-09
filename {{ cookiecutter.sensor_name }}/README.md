@@ -66,11 +66,14 @@ export METRON_REST_PASSWORD="<password>"
 export METRON_REST_URL="{{ cookiecutter.metron_rest }}"
 ```
 
-* Deploy by executing the `deploy.sh` script to upload and deploy all configuration files:
+* Deploy by executing the `deploy.sh` script that was generated.
+* This will upload and deploy all relevant configuration files where Metron expects them to be.
+* Note: You need sudo permission to switch to the metron and kafka user to successfully execute this script.
 
-```
+```bash
 bash deploy.sh
 ```
+
 
 * Check in the Metron Management UI if everything was posted correctly.
 
