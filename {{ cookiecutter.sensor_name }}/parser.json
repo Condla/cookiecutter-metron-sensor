@@ -1,37 +1,45 @@
 {
-	"parserClassName": "{{ cookiecutter.parser_class_name }}",
-	"filterClassName": null,
-	"sensorTopic": "{{ cookiecutter.kafka_topic_name }}",
-	"outputTopic": null,
-	"errorTopic": null,
-	"writerClassName": null,
-	"errorWriterClassName": null,
-	"readMetadata": true,
-	"mergeMetadata": true,
-	"numWorkers": 2,
-	"numAckers": {{ cookiecutter.kafka_number_partitions }},
-	"spoutParallelism": {{ cookiecutter.kafka_number_partitions }},
-	"spoutNumTasks": {{ cookiecutter.kafka_number_partitions }},
-	"parserParallelism": 2,
-	"parserNumTasks": 2,
-	"errorWriterParallelism": 1,
-	"errorWriterNumTasks": 1,
-	"spoutConfig": {},
-	"securityProtocol": null,
-	"stormConfig": {},
-	"parserConfig": {
-    {% if cookiecutter.is_grok == "true" %}
-		"grokPath": "/apps/metron/patterns/{{ cookiecutter.sensor_name }}",
-		"patternLabel": "{{ cookiecutter.sensor_name | upper }}",
-		"timestampField": "timestamp",
-		"timeFields": [
-			"timestamp"
-		],
-        "dateFormat": "yyyy-MM-dd HH:mm:ss"
+    "parserClassName": "{{ cookiecutter.parser_class_name }}",
+    "filterClassName": null,
+    "sensorTopic": "{{ cookiecutter.kafka_topic_name }}",
+    "outputTopic": null,
+    "errorTopic": null,
+    "writerClassName": "{{ cookiecutter.writer_class_name }}",
+    "errorWriterClassName": null,
+    "readMetadata": true,
+    "mergeMetadata": true,
+    "numWorkers": {{ cookiecutter.storm_number_workers }},
+    "numAckers": {{ cookiecutter.kafka_number_partitions }},
+    "spoutParallelism": {{ cookiecutter.kafka_number_partitions }},
+    "spoutNumTasks": {{ cookiecutter.kafka_number_partitions }},
+    "parserParallelism": {{ cookiecutter.storm_parser_parallelism }},
+    "parserNumTasks": {{ cookiecutter.storm_parser_parallelism }},
+    "errorWriterParallelism": 1,
+    "errorWriterNumTasks": 1,
+    "spoutConfig": {
+        "group.id": "{{ cookiecutter.sensor_name }}"
+    },
+    "securityProtocol": null,
+    "stormConfig": {},
+    "parserConfig": {
+    {% if cookiecutter.parser_class_name=="org.apache.metron.parsers.GrokParser" %}
+        "grokPath": "/apps/metron/patterns/{{ cookiecutter.sensor_name }}",
+        "patternLabel": "{{ cookiecutter.grok_pattern_label }}",
+        "timestampField": "timestamp",
+        "timeFields": [
+            "timestamp"
+        ],
+        "dateFormat": "yyyy-MM-dd HH:mm:ss"{% if cookiecutter.writer_class_name=="org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter" %},{% endif %}
     {% endif %}
-	},
-	"fieldTransformations": [],
-	"cacheConfig": {},
-	"rawMessageStrategy": "DEFAULT",
-	"rawMessageStrategyConfig": {}
+    {% if cookiecutter.writer_class_name=="org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter" %}
+        "shew.table": "{{ cookiecutter.shew_table }}",
+        "shew.cf": "{{ cookiecutter.shew_cf }}",
+        "shew.keyColumns": "{{ cookiecutter.shew_key_columns }}",
+        "shew.enrichmentType": "{{ cookiecutter.shew_enrichment_type }}"
+    %{% endif %}
+    },
+    "fieldTransformations": [],
+    "cacheConfig": {},
+    "rawMessageStrategy": "DEFAULT",
+    "rawMessageStrategyConfig": {}
 }

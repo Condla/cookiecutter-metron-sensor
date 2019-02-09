@@ -134,11 +134,14 @@
                 "ip_src_addr": {
                     "type": "ip"
                 },
-                "ip_dst_port": {
+                "ip_src_port": {
                     "type": "keyword"
                 },
                 "ip_dst_addr": {
                     "type": "ip"
+                },
+                "ip_dst_port": {
+                    "type": "keyword"
                 },
                 "source:type": {
                     "type": "keyword"

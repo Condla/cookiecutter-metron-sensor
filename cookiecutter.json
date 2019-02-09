@@ -3,10 +3,27 @@
     "index_name": "myindex",
     "kafka_topic_name": "mytopic",
     "kafka_number_partitions": 2,
-    "cookiecutter.kafka_number_replicas": 2,
-    "is_grok": ["true", "false"],
+    "kafka_number_replicas": 2,
+    "storm_number_workers": 2,
+    "storm_parser_parallelism": 2,
+    "batch_indexing_size": 200,
+    "ra_indexing_size": 50,
     "write_to_hdfs": ["true", "false"],
     "write_to_elastic_search": ["true", "false"],
     "write_to_solr": ["false", "true"],
-    "parser_class_name": ["org.apache.metron.parsers.GrokParser"]
+    "parser_class_name": [
+        "org.apache.metron.parsers.GrokParser",
+        "org.apache.metron.parsers.json.JSONMapParser"
+    ],
+    "grok_pattern_label": "{{ cookiecutter.sensor_name | upper }}",
+    "writer_class_name": [ "null", "org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter"],
+    "shew_table": "enrichment",
+    "shew_cf": "t",
+    "shew_key_columns": "MyEnrichmentKey",
+    "shew_enrichment_type": "MyEnrichmentName",
+    "zookeeper_quorum": "node1:2181,node2:2181,node3:2181",
+    "elastic_user": "",
+    "elastic_master": "https://elastic.fqdn.com:9200",
+    "metron_user": "metron",
+    "metron_rest": "http://metron.fqdn.com:8082"
 }

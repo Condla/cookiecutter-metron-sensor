@@ -1,18 +1,18 @@
 {
-	"enrichment": {
-		"fieldMap": {},
-		"fieldToTypeMap": {},
-		"config": {}
-	},
-	"threatIntel": {
-		"fieldMap": {},
-		"fieldToTypeMap": {},
-		"config": {},
-		"triageConfig": {
-			"riskLevelRules": [],
-			"aggregator": "MAX",
-			"aggregationConfig": {}
-		}
-	},
-	"configuration": {}
+    "enrichment": {
+        "fieldMap": {},
+        "fieldToTypeMap": {},
+        "config": {}
+    },
+    "threatIntel": {
+        "fieldMap": {},
+        "fieldToTypeMap": {},
+        "config": {},
+        "triageConfig": {
+            "riskLevelRules": [],
+            "aggregator": "MAX",
+            "aggregationConfig": {}
+        }
+    },
+    "configuration": {}
 }

@@ -1,0 +1,1 @@
+{{ cookiecutter.grok_pattern_label }}  %{GREEDYDATA:message}
