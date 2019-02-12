@@ -2,6 +2,16 @@
 
 A cookiecutter to quickly create all required configs Apache Metron sensors.
 
+It creates:
+
+* elastic search basic template
+* a deployment script
+* the Metron sensor configs (parser.json, enrichment.json, indexing.json)
+
+...and gives the option to specify a streaming enrichment source or a conventional sensor.
+
+So at the moment it does not (much) more that the Metron Management UI does, but from the convenience of the command line and already organized in a directory structure, ready to be versioned.
+
 ## Prerequisites
 
 * Download cookiecutter for your operating system
