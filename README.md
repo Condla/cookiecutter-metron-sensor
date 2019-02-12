@@ -1,6 +1,6 @@
-# cookiecutter-metron-sensor
+# Cookiecutter: Metron Sensor
 
-A cookiecutter to quickly create sensors for Apache Metron
+A cookiecutter to quickly create all required configs Apache Metron sensors.
 
 ## Prerequisites
 
@@ -19,10 +19,12 @@ git clone git@github.com:Condla/cookiecutter-metron-sensor.git
 cookiecutter cookiecutter-metron-sensor
 ```
 
-* Follow the instructions on screen
+* Follow the instructions on screen by filling out the command line prompts or using the suggested defaults.
 
 * Your sensor files are created in a directory with the name of the sensor you assigned.
 
-* It contains all the files you need to successfully onboard a new sensor to Apache Metron.
+* This directory contains all the files you need to successfully onboard a new sensor to Apache Metron.
 
-* It also contains a README file with deployment instructions.
+* The directory contains a README.md file with deployment instructions _specific_ to your newly created sensor.
+
+* Read [this blog entry for more information](https://datahovel.com/2019/02/08/a-cookiecutter-for-metron-sensors/)
