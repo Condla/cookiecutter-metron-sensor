@@ -1,7 +1,7 @@
 {
     "sensor_name": "mysensor",
-    "index_name": "myindex",
-    "kafka_topic_name": "mytopic",
+    "index_name": "{{ cookiecutter.sensor_name }}",
+    "kafka_topic_name": "{{ cookiecutter.sensor_name }}",
     "kafka_number_partitions": 2,
     "kafka_number_replicas": 2,
     "storm_number_workers": 2,

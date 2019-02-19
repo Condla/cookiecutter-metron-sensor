@@ -1,6 +1,6 @@
 # Cookiecutter: Metron Sensor
 
-A cookiecutter to quickly create all required configs Apache Metron sensors.
+A cookiecutter to quickly create all required configs for Apache Metron sensors.
 
 It creates:
 
