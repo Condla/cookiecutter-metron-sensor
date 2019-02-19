@@ -4,8 +4,7 @@
     "sensorTopic": "{{ cookiecutter.kafka_topic_name }}",
     "outputTopic": null,
     "errorTopic": null,
-
-    "writerClassName": {% if cookiecutter.write_to_hbase=="true"%}"org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter"{% else %}null{% endif %}",
+    "writerClassName": {% if cookiecutter.write_to_hbase=="true"%}"org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter"{% else %}null{% endif %},
     "errorWriterClassName": null,
     "readMetadata": true,
     "mergeMetadata": true,
