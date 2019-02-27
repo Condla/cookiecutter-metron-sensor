@@ -1,17 +1,17 @@
 {
     "hdfs": {
         "batchSize": {{ cookiecutter.batch_indexing_size}},
-        "enabled": {{ cookiecutter.write_to_hdfs }},
+        "enabled": {% if cookiecutter.sensor_type == "solr" or cookiecutter.sensor_type == "elastic" %}true{% else %}false{% endif %},
         "index": "{{ cookiecutter.index_name }}"
     },
     "elasticsearch": {
         "batchSize": {{ cookiecutter.ra_indexing_size }},
-        "enabled": {{ cookiecutter.write_to_elastic_search }},
+        "enabled": {% if cookiecutter.sensor_type == "elastic" %}true{% else %}false{% endif %},
         "index": "{{ cookiecutter.index_name }}"
     },
     "solr": {
         "batchSize": {{ cookiecutter.ra_indexing_size }},
-        "enabled": {{ cookiecutter.write_to_solr }},
+        "enabled": {% if cookiecutter.sensor_type == "solr" %}true{% else %}false{% endif %},
         "index": "{{ cookiecutter.index_name }}"
 	}
 }

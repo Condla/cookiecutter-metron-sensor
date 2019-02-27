@@ -6,33 +6,46 @@
 
 * Describe stages that an event passes _here_:
 
+{% if cookiecutter.sensor_type in ["elastic", "solr"] %}
 ```none
  --> Server logs
      |__NiFi
-        |__Kafka
-            |__Metron Parsing
-               |__Kafka
-                  |__Metron Enriching
-                     |__Kafka
+        |__Kafka topic: "{{ cookiecutter.kafka_input_topic_name }}"
+            |__Storm topology: "{{ cookiecutter.sensor_name }}"
+               |__Kafka topic: "enrichments"
+                  |__Metron Enrichment topology
+                     |__Kafka topic: "indexing"
                         |  |
                        /    \
-                    HDFS     Elastic Search
+                    hdfs     {{ cookiecutter.sensor_type }}: "{{ cookiecutter.index_name}}"
+```
+{% endif %}
 
-
-or:
-
+{% if cookiecutter.sensor_type in ["enrichment"] %}
+```none
 --> Streaming enrichment source
    |__NiFi
-      |__Kafka
-         |__Metron Parsing
-            |__HBase
+      |__Kafka topic: {{ cookiecutter.kafka_input_topic_name }}
+         |__Storm topology: "{{ cookiecutter.sensor_name }}"
+            |__HBase table: {{ cookiecutter.shew_table }}
 ```
+{% endif %}
 
-## Filters
+{% if cookiecutter.sensor_type in ["routing"] %}
+```none
+--> Server logs
+   |__NiFi
+      |__Kafka topic: {{ cookiecutter.kafka_input_topic_name }}
+         |__Storm topology: "{{ cookiecutter.sensor_name }}"
+            |__Kafka topic: {{ cookiecutter.kafka_output_topic_name }}
+```
+{% endif %}
+
+## Filters and Parser Transformations
 
 * Describe filters and important transformations here on a high level _here_
 
-## Enrichments
+## Enrichments and Transformations
 
 * Describe important enrichments qualitatively on a high level _here_
 
@@ -40,49 +53,65 @@ or:
 
 * Event Rate:  XXX eps
 
-## Deployment Instructions
+## Useful commands
 
-* You created this page by running the Metron Sensor Cookiecutter
+{% if cookiecuuter.sensor_type == "elastic" %}
+### Deploy ES Template
+{% if cookiecutter.elastic_user == "" %}
+```bash
+curl -X POST {{ cookiecutter.elastic_master }}/_template/{{ cookiecutter.sensor_name }}_index -d @elastic.json
+```
+{% else %}
+```bash
+curl -u {{ cookiecutter.elastic_user }} -X POST {{ cookiecutter.elastic_master }}/_template/{{ cookiecutter.sensor_name }}_index -d @elastic.json
+```
+{% endif %}
+{% endif %}
 
-* Then, check all files that have been created and change anything to fit your needs:
-
-    * Add fields to the Elastic Search template in `elastic.json`
-
-    * If you use Grok, develop your Grok statement and put it into the Grok file
-
-    * add specific enrichments, if required to the `enrichment.json`
-
-* Make sure that the user executing the pipelines, which is usually the `metron` user, has sufficient permissions to read/write to the Kafka topic `{{ cookiecutter.kafka_topic_name }}` and has full permissions to manage the Storm topology `{{ cookiecutter.sensor_name }}`. Apache Ranger is a great tool to do this.
-
-* Then, set the following environment variables
+{% if cookiecutter.sensor_type == "solr" %}
+### Deploy Solr Schema
 
 ```bash
-export SENSOR="{{ cookiecutter.sensor_name }}"
-export ELASTIC_USER="{{ cookiecutter.elastic_user }}"
-export ELASTIC_PASSWORD="<password>"
-export ELASTICMASTER="{{ cookiecutter.elastic_master }}"
+solr commmand is here ;)
+```
+{% endif %}
+
+
 export METRON_REST_USER="{{ cookiecutter.metron_user }}"
-export METRON_REST_PASSWORD="<password>"
 export METRON_REST_URL="{{ cookiecutter.metron_rest }}"
-```
 
-* Deploy by executing the `deploy.sh` script that was generated.
-* This will upload and deploy all relevant configuration files where Metron expects them to be.
-* Note: You need sudo permission to switch to the metron and kafka user to successfully execute this script.
+### Post Parser Config
 
 ```bash
-bash deploy.sh
+curl -u {{ cookiecutter.metron_user }} -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d @parser.json {{ cookiecutter.metron_rest }}/api/v1/sensor/parser/config/{{ cookiecutter.sensor_name }}
 ```
 
-
-* Check in the Metron Management UI if everything was posted correctly.
-
-* Start the sensor from the Metron Management UI by clicking the "play" button next to the `{{ cookiecutter.sensor_name }}`` sensor.
-
-* Push sample events into Kafka and test the pipeline:
+### Post Enrichment Config
 
 ```bash
-/usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list broker1.kafka:6667 --security-protocol SASL_PLAINTEXT --topic {{ cookiecutter.kafka_topic_name }}
+curl -u {{ cookiecutter.metron_user }} -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d @enrichment.json {{ cookiecutter.metron_rest }}/api/v1/sensor/enrichment/config/{{ cookiecutter.sensor_name }}
 ```
 
-* Your sensor is now online! :)
+### Post Indexing Config
+
+```bash
+curl -u {{ cookiecutter.metron_user }} -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d @indexing.json {{ cookiecutter.metron_rest }}/api/v1/sensor/indexing/config/{{ cookiecutter.sensor_name }}
+```
+### Deploy Grok statement
+
+{% if cookiecutter.parser_type=="Grok" %}
+kinit -kt /etc/security/keytabs/metron.headless.keytab metron
+hdfs dfs -put grok /apps/metron/patterns/{{ cookiecutter.sensor_name }}
+{% endif %}
+
+### Create Kafka topics
+
+```bash
+sudo su kafka -c "/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --zookeeper {{ cookiecutter.zookeeper_quorum }} --if-not-exists --create --topic {{ cookiecutter.kafka_topic_name }} --partitions {{ cookiecutter.kafka_number_partitions }} --replication-factor {{ cookiecutter.kafka_number_replicas }}"
+```
+
+### Push Sensor Samples into Kafka
+
+```bash
+cat samples | /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list broker1.kafka:6667 --security-protocol SASL_PLAINTEXT --topic {{ cookiecutter.kafka_topic_name }}
+```

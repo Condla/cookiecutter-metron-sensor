@@ -1,10 +1,10 @@
 {
-    "parserClassName": "{{ cookiecutter.parser_class_name }}",
+    "parserClassName": "{{ cookiecutter.parser_classes[cookiecutter.parser_type] }}",
     "filterClassName": null,
     "sensorTopic": "{{ cookiecutter.kafka_topic_name }}",
     "outputTopic": null,
     "errorTopic": null,
-    "writerClassName": {% if cookiecutter.write_to_hbase=="true"%}"org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter"{% else %}null{% endif %},
+    "writerClassName": {% if cookiecutter.sensor_type=="enrichment"%}"org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter"{% else %}null{% endif %},
     "errorWriterClassName": null,
     "readMetadata": true,
     "mergeMetadata": true,
@@ -17,26 +17,30 @@
     "errorWriterParallelism": 1,
     "errorWriterNumTasks": 1,
     "spoutConfig": {
-        "group.id": "{{ cookiecutter.sensor_name }}"
+        "group.id": "{{ cookiecutter.sensor_name }}_parser"
     },
     "securityProtocol": null,
     "stormConfig": {},
     "parserConfig": {
-    {% if cookiecutter.parser_class_name=="org.apache.metron.parsers.GrokParser" %}
+    {% if cookiecutter.parser_type=="Grok" %}
         "grokPath": "/apps/metron/patterns/{{ cookiecutter.sensor_name }}",
         "patternLabel": "{{ cookiecutter.grok_pattern_label }}",
         "timestampField": "timestamp",
         "timeFields": [
             "timestamp"
         ],
-        "dateFormat": "yyyy-MM-dd HH:mm:ss"{% if cookiecutter.write_to_hbase=="true" %},{% endif %}
+        "dateFormat": "yyyy-MM-dd HH:mm:ss"{% if cookiecutter.sensor_type=="enrichment" %},{% endif %}
     {% endif %}
-    {% if cookiecutter.write_to_hbase=="true" %}
+    {% if cookiecutter.sensor_type=="enrichment" %}
         "shew.table": "{{ cookiecutter.shew_table }}",
         "shew.cf": "{{ cookiecutter.shew_cf }}",
         "shew.keyColumns": "{{ cookiecutter.shew_key_columns }}",
         "shew.enrichmentType": "{{ cookiecutter.shew_enrichment_type }}"
-    %{% endif %}
+    {% endif %}
+    {% if cookiecutter.sensor_type=="routing" %}
+    "kafka.topic": "mytopic",
+    "kafka.topicField": "mytopicvariable",
+{% endif %}
     },
     "fieldTransformations": [],
     "cacheConfig": {},

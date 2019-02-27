@@ -127,10 +127,6 @@
                 }
             ],
             "properties": {
-                "timestamp": {
-                    "type": "date",
-                    "format": "epoch_millis"
-                },
                 "ip_src_addr": {
                     "type": "ip"
                 },
@@ -142,6 +138,10 @@
                 },
                 "ip_dst_port": {
                     "type": "keyword"
+                },
+                "timestamp": {
+                    "type": "date",
+                    "format": "epoch_millis"
                 },
                 "source:type": {
                     "type": "keyword"
