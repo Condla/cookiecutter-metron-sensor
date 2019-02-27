@@ -71,12 +71,14 @@ export METRON_REST_PASSWORD="<password>"
 
 Most of the variables you have to choose are described in the Metron documentation. The cookiecutter variables have a slightly different name as the Metron ones. This is list is a quick how-to guide and a pointer to more detailed documentation where required.
 
+Ongoing work/Currently updating. As long as this is updated, read [this blog entry](https://datahovel.com/2019/02/08/a-cookiecutter-for-metron-sensors/) for more information.
+
 
     "sensor_name": The name as it will be shown in the Management UI. Also the name of the corresponding parser Storm topology.
     "index_name": The name of the index the sensor will be indexing to HDFS/Elastic/Solr.
     "kafka_input_topic_name": The Kafka topic the parser topology will read from.
     "parser_type": Choose one parser type from the list.
-    "grok_pattern_label": Only relevant if you chose Grok as your parser type
+    "grok_pattern_label": Only relevant if you chose Grok as your parser type.
     "kafka_number_partitions": 2,
     "kafka_number_replicas": 2,
     "storm_number_workers": 2,
