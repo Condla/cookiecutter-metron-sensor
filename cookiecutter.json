@@ -31,7 +31,7 @@
     "shew_cf": "t",
     "shew_key_columns": "MyEnrichmentKey",
     "shew_enrichment_type": "myenrichmentname",
-    "kafka_output_topic_name": "sensorout"
+    "kafka_output_topic_name": "sensorout",
     "elastic_user": "",
     "elastic_master": "http://elastic.fqdn.com:9200",
     "metron_user": "metron",
