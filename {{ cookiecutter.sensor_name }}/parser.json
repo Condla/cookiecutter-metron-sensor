@@ -1,7 +1,7 @@
 {
     "parserClassName": "{{ cookiecutter.parser_classes[cookiecutter.parser_type] }}",
     "filterClassName": null,
-    "sensorTopic": "{{ cookiecutter.kafka_topic_name }}",
+    "sensorTopic": "{{ cookiecutter.kafka_input_topic_name }}",
     "outputTopic": null,
     "errorTopic": null,
     "writerClassName": {% if cookiecutter.sensor_type=="enrichment"%}"org.apache.metron.enrichment.writer.SimpleHbaseEnrichmentWriter"{% else %}null{% endif %},

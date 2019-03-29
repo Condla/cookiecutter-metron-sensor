@@ -55,7 +55,7 @@
 
 ## Useful commands
 
-{% if cookiecuuter.sensor_type == "elastic" %}
+{% if cookiecutter.sensor_type == "elastic" %}
 ### Deploy ES Template
 {% if cookiecutter.elastic_user == "" %}
 ```bash
@@ -107,11 +107,11 @@ hdfs dfs -put grok /apps/metron/patterns/{{ cookiecutter.sensor_name }}
 ### Create Kafka topics
 
 ```bash
-sudo su kafka -c "/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --zookeeper {{ cookiecutter.zookeeper_quorum }} --if-not-exists --create --topic {{ cookiecutter.kafka_topic_name }} --partitions {{ cookiecutter.kafka_number_partitions }} --replication-factor {{ cookiecutter.kafka_number_replicas }}"
+sudo su kafka -c "/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --zookeeper {{ cookiecutter.zookeeper_quorum }} --if-not-exists --create --topic {{ cookiecutter.kafka_input_topic_name }} --partitions {{ cookiecutter.kafka_number_partitions }} --replication-factor {{ cookiecutter.kafka_number_replicas }}"
 ```
 
 ### Push Sensor Samples into Kafka
 
 ```bash
-cat samples | /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list broker1.kafka:6667 --security-protocol SASL_PLAINTEXT --topic {{ cookiecutter.kafka_topic_name }}
+cat samples | /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list broker1.kafka:6667 --security-protocol SASL_PLAINTEXT --topic {{ cookiecutter.kafka_input_topic_name }}
 ```
